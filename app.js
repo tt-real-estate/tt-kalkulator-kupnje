@@ -111,5 +111,6 @@ document.addEventListener('click', event => {
 });
 
 byId('apn-link').href = CONFIG.apnCalculatorsUrl;
+byId('cta-link').href = CONFIG.ctaUrl;
 byId('year').textContent = new Date().getFullYear();
 renderStandardCosts(); renderCustomCosts(); setLanguage('hr'); updateConditionalFields();
