@@ -2,5 +2,6 @@
 export const CONFIG = Object.freeze({
   realEstateTransferTaxRate: 0.03,
   croatianVatRate: 0.25,
-  ctaUrl: '#',
+  ctaEmail: 'info.ttnekretnine@gmail.com',
+  apnCalculatorsUrl: 'https://apn.hr/povrat-poreza/kalkulatori-za-okvirni-izracun-potpore/',
 });

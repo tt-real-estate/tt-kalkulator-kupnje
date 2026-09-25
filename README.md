@@ -12,7 +12,7 @@ Brza, dvojezična (HR/EN) statička web aplikacija koja potencijalnom kupcu prik
 | `styles.css` | Responzivni vizualni identitet i mobilni prikaz |
 | `app.js` | Upravljanje sučeljem, prijevodima i prikazom rezultata |
 | `calculator.js` | Jedinstvena, neovisna poslovna logika izračuna |
-| `config.js` | Centralna konfiguracija poreznih stopa i CTA poveznice |
+| `config.js` | Centralna konfiguracija poreznih stopa, CTA e-maila i APN poveznice |
 | `translations.js` | Sve vidljive HR i EN poruke i opcije |
 | `test/calculator.test.js` | Automatizirani testovi ključnih scenarija |
 
@@ -42,13 +42,15 @@ Sve poslovne vrijednosti koje se mogu mijenjati nalaze se na jednom mjestu, u `c
 export const CONFIG = Object.freeze({
   realEstateTransferTaxRate: 0.03,
   croatianVatRate: 0.25,
-  ctaUrl: '#',
+  ctaEmail: 'info.ttnekretnine@gmail.com',
+  apnCalculatorsUrl: 'https://apn.hr/...',
 });
 ```
 
 - `realEstateTransferTaxRate`: stopa poreza na promet nekretnina kao decimalni broj (`0.03` = 3%).
 - `croatianVatRate`: standardna stopa hrvatskog PDV-a kao decimalni broj (`0.25` = 25%). Primjenjuje se isključivo na proviziju kada korisnik odabere da se PDV dodaje.
-- `ctaUrl`: odredište CTA gumba. Zamijenite `#` punom ili relativnom poveznicom kada bude dostupna.
+- `ctaEmail`: adresa primatelja unaprijed pripremljenog HR/EN CTA e-maila.
+- `apnCalculatorsUrl`: službena poveznica na APN kalkulatore, prikazana kao odvojena informativna napomena i ne uključuje se u izračun.
 
 Nakon promjene stopa preporučuje se prilagoditi tekstualna objašnjenja stopa u `translations.js` i pokrenuti testove.
 

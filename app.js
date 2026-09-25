@@ -64,11 +64,12 @@ function updateConditionalFields() {
 function setLanguage(language) {
   state.language = language;
   document.documentElement.lang = language;
-  document.title = language === 'hr' ? 'TT Real Estate | Antares — Kalkulator ukupnog troška kupnje' : 'TT Real Estate | Antares — Property Purchase Total Cost Calculator';
+  document.title = language === 'hr' ? 'TT Real Estate | Antares — Kalkulator ukupnog troška kupnje' : 'TT Real Estate | Antares — Total Property Purchase Cost Calculator';
   document.querySelectorAll('[data-i18n]').forEach(element => { element.innerHTML = t()[element.dataset.i18n]; });
   document.querySelectorAll('[data-i18n-placeholder]').forEach(element => { element.placeholder = t()[element.dataset.i18nPlaceholder]; });
   document.querySelectorAll('[data-i18n-aria]').forEach(element => { element.setAttribute('aria-label', t()[element.dataset.i18nAria]); });
   document.querySelectorAll('.language-button').forEach(button => { const active = button.dataset.language === language; button.classList.toggle('active', active); button.setAttribute('aria-pressed', active); });
+  byId('cta-link').href = `mailto:${CONFIG.ctaEmail}?subject=${encodeURIComponent(t().ctaSubject)}&body=${encodeURIComponent(t().ctaBody)}`;
   renderChoices(); renderStandardCosts(); renderCustomCosts(); updateResults(); validateAll();
 }
 
@@ -109,6 +110,7 @@ document.addEventListener('click', event => {
   if (removeButton) { state.customCosts = state.customCosts.filter(cost => cost.id !== Number(removeButton.closest('.custom-cost').dataset.id)); renderCustomCosts(); updateResults(); }
 });
 
+byId('apn-link').href = CONFIG.apnCalculatorsUrl;
 byId('cta-link').href = CONFIG.ctaUrl;
 byId('year').textContent = new Date().getFullYear();
 renderStandardCosts(); renderCustomCosts(); setLanguage('hr'); updateConditionalFields();
