@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="hr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Kalkulator ukupnog troška kupnje nekretnine u Hrvatskoj">
+    <title>TT Real Estate | Antares — Kalkulator ukupnog troška kupnje</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Manrope:wght@400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script type="module" src="app.js"></script>
+  </head>
+  <body>
+    <header class="hero">
+      <nav class="topbar" aria-label="Odabir jezika" data-i18n-aria="languageNav">
+        <a class="brand" href="#top" aria-label="TT Real Estate Antares">TT REAL ESTATE <span></span> ANTARES</a>
+        <div class="language-switcher" role="group" aria-label="Jezik" data-i18n-aria="languageSelect">
+          <button type="button" class="language-button active" data-language="hr" aria-pressed="true">HR</button>
+          <i></i>
+          <button type="button" class="language-button" data-language="en" aria-pressed="false">EN</button>
+        </div>
+      </nav>
+      <div class="hero-content" id="top">
+        <p class="eyebrow" data-i18n="eyebrow">Vaša sigurna odluka</p>
+        <h1 data-i18n="title">Kalkulator ukupnog troška<br>kupnje nekretnine</h1>
+        <p class="subtitle" data-i18n="subtitle">Saznajte koliko vas kupnja nekretnine može stvarno koštati.</p>
+        <div class="scroll-line" aria-hidden="true"></div>
+      </div>
+    </header>
+
+    <main class="page-shell">
+      <div class="calculator-grid">
+        <form id="calculator-form" novalidate>
+          <section class="card primary-card">
+            <div class="section-number">01</div>
+            <div class="section-content">
+              <p class="section-kicker" data-i18n="propertyKicker">Nekretnina</p>
+              <h2 data-i18n="priceTitle">Kupoprodajna cijena</h2>
+              <label for="purchase-price" data-i18n="purchasePrice">Kupoprodajna cijena nekretnine (€)</label>
+              <div class="money-input featured-input"><span>€</span><input id="purchase-price" name="purchasePrice" type="number" min="0" step="1000" inputmode="decimal" placeholder="250 000" data-i18n-placeholder="pricePlaceholder"></div>
+              <p class="field-note" data-i18n="priceNote">Osnovni iznos na kojem se temelji izračun.</p>
+              <p class="error" id="purchase-price-error" role="alert"></p>
+            </div>
+          </section>
+
+          <section class="card">
+            <div class="section-number">02</div>
+            <div class="section-content">
+              <p class="section-kicker" data-i18n="taxKicker">Porezni tretman</p>
+              <h2 data-i18n="taxTitle">Kako se oporezuje nekretnina?</h2>
+              <p class="section-intro" data-i18n="taxIntro">Odaberite opciju koja odgovara vašoj transakciji.</p>
+              <div class="choice-list" id="tax-options"></div>
+              <div class="info-note" id="tax-note" aria-live="polite"></div>
+            </div>
+          </section>
+
+          <section class="card">
+            <div class="section-number">03</div>
+            <div class="section-content">
+              <p class="section-kicker" data-i18n="commissionKicker">Posredovanje</p>
+              <h2 data-i18n="commissionTitle">Agencijska provizija</h2>
+              <p class="section-intro" data-i18n="commissionIntro">Uključite samo proviziju ugovorenu za vašu transakciju.</p>
+              <div class="segmented-control" id="commission-options"></div>
+              <div id="commission-fields" class="conditional-fields" hidden>
+                <div id="percentage-field">
+                  <label for="commission-percentage" data-i18n="commissionPercentage">Postotak provizije</label>
+                  <div class="money-input suffix"><input id="commission-percentage" type="number" min="0" step="0.1" inputmode="decimal" placeholder="0"><span>%</span></div>
+                </div>
+                <div id="fixed-field" hidden>
+                  <label for="commission-fixed" data-i18n="commissionFixed">Fiksni iznos provizije (€)</label>
+                  <div class="money-input"><span>€</span><input id="commission-fixed" type="number" min="0" step="100" inputmode="decimal" placeholder="0"></div>
+                </div>
+                <div class="vat-block">
+                  <label for="commission-vat" data-i18n="commissionVat">PDV na agencijsku proviziju</label>
+                  <select id="commission-vat"></select>
+                  <p class="field-note" id="vat-note"></p>
+                </div>
+              </div>
+              <p class="error" id="commission-error" role="alert"></p>
+            </div>
+          </section>
+
+          <section class="card">
+            <div class="section-number">04</div>
+            <div class="section-content">
+              <p class="section-kicker" data-i18n="costsKicker">Ostali izdaci</p>
+              <h2 data-i18n="costsTitle">Dodatni troškovi kupnje</h2>
+              <p class="section-intro" data-i18n="costsIntro">Unesite samo troškove koji se odnose na vašu kupnju. Polja možete ostaviti prazna.</p>
+              <div class="cost-grid" id="standard-costs"></div>
+              <div class="custom-costs-header">
+                <h3 data-i18n="customCosts">Vlastiti dodatni troškovi</h3>
+                <button type="button" class="text-button" id="add-cost"><span>＋</span> <b data-i18n="addCost">Dodaj trošak</b></button>
+              </div>
+              <div id="custom-costs"></div>
+            </div>
+          </section>
+        </form>
+
+        <aside class="results-card" aria-live="polite">
+          <p class="section-kicker light" data-i18n="estimateKicker">Vaša procjena</p>
+          <h2 data-i18n="breakdownTitle">Pregled troškova</h2>
+          <div class="breakdown" id="breakdown"></div>
+          <div class="results-divider"></div>
+          <div class="total-block">
+            <span data-i18n="totalLabel">Ukupni trošak kupnje</span>
+            <strong id="total">0,00 €</strong>
+          </div>
+          <div class="additional-summary">
+            <div><span data-i18n="additionalLabel">Dodatni troškovi iznad kupoprodajne cijene</span><strong id="additional-total">0,00 €</strong></div>
+            <p id="additional-percentage">0,00% <span data-i18n="ofPrice">kupoprodajne cijene</span></p>
+          </div>
+          <p class="results-note" data-i18n="resultsNote">Procjena se automatski ažurira prema vašim unosima.</p>
+        </aside>
+      </div>
+
+      <section class="apn-card" aria-labelledby="apn-title">
+        <div class="apn-content">
+          <p class="section-kicker" data-i18n="apnLabel">Službeni vanjski alat</p>
+          <h2 id="apn-title" data-i18n="apnTitle">Kupujete prvu stambenu nekretninu?</h2>
+          <p data-i18n="apnText">Ako ispunjavate propisane uvjete, možda imate pravo na povrat dijela plaćenog poreza na promet nekretnina ili PDV-a. Provjerite uvjete i napravite informativni izračun na službenim APN kalkulatorima.</p>
+        </div>
+        <a id="apn-link" class="apn-link" href="https://apn.hr/povrat-poreza/kalkulatori-za-okvirni-izracun-potpore/" target="_blank" rel="noopener noreferrer" data-i18n="apnButton">Otvori APN kalkulatore ↗</a>
+      </section>
+
+      <section class="cta">
+        <p class="section-kicker" data-i18n="advisoryKicker">Stručno uz vas</p>
+        <h2 data-i18n="ctaText">Kupujete nekretninu i želite je provjeriti prije odluke?</h2>
+        <p>TT REAL ESTATE <span></span> ANTARES</p>
+        <a id="cta-link" class="cta-button" href="#"><span data-i18n="ctaButton">Pošaljite upit za provjeru</span><b>↗</b></a>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-brand">TT <span>REAL ESTATE<br>ANTARES</span></div>
+      <p data-i18n="disclaimer">Izračun je informativan i ne predstavlja pravni, porezni ni financijski savjet. Stvarni troškovi ovise o konkretnoj transakciji, ugovorenim uslugama i važećim propisima.</p>
+      <small>© <span id="year"></span> TT Real Estate | Antares</small>
+    </footer>
+  </body>
+</html>
